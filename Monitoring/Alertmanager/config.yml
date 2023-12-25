@@ -1,0 +1,157 @@
+global:
+  http_config:
+    tls_config:
+      insecure_skip_verify: true
+  resolve_timeout: 5m
+  smtp_from: 'prometheus@sys45.example.com'
+  smtp_smarthost: 'smtp.example.com:25'
+  smtp_require_tls: false
+  smtp_auth_username: ""
+  smtp_hello: localhost
+templates:
+- '/etc/alertmanager/email.tmpl'
+receivers:
+- name: jiralert-blocker
+  webhook_configs:
+  - url: "http://sys45.example.com:9097/alert"
+    send_resolved: true
+- name: jiralert-critical
+  webhook_configs:
+  - url: "http://sys45.example.com:9097/alert"
+    send_resolved: true
+- name: jiralert-high
+  webhook_configs:
+  - url: "http://sys45.example.com:9097/alert"
+    send_resolved: true
+- name: jiralert-medium
+  webhook_configs:
+  - url: "http://sys45.example.com:9097/alert"
+    send_resolved: true
+- name: jiralert-low
+  webhook_configs:
+  - url: "http://sys45.example.com:9097/alert"
+    send_resolved: true
+- name: msteams-blocker
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/blocker"
+    send_resolved: true
+- name: msteams-critical
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/critical"
+    send_resolved: true
+- name: msteams-high
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/high"
+    send_resolved: true
+- name: msteams-apisources
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/apisources"
+    send_resolved: true
+- name: msteams-dpi
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/dpi"
+    send_resolved: true
+- name: msteams-internal
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/internal"
+    send_resolved: true
+- name: msteams-rtn
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/rtn"
+    send_resolved: true
+- name: msteams-api
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/api"
+    send_resolved: true
+- name: msteams-api-uat
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/api-uat"
+    send_resolved: true
+- name: msteams-test #for testing
+  webhook_configs:
+  - url: "http://sys45.example.com:2000/test"
+    send_resolved: true
+- name: email-api
+  email_configs:
+  - to: 'example@example.com'
+
+route:
+  group_by: [alertname]
+  group_interval: 10m
+  group_wait: 5m
+  receiver: jiralert-low #default if nothing is suitable
+  repeat_interval: 12h
+  routes:
+  - match:
+      severity: Blocker
+      jira: Yes
+    receiver: jiralert-blocker
+    continue: true
+  - match:
+      severity: Critical
+      jira: Yes
+    receiver: jiralert-critical
+    continue: true
+  - match:
+      severity: High
+      jira: Yes
+    receiver: jiralert-high
+    continue: true
+  - match:
+      severity: Medium
+      jira: Yes
+    receiver: jiralert-medium
+    continue: true
+  - match:
+      severity: Low
+      jira: Yes
+    receiver: jiralert-low
+    continue: true
+  - match:
+      severity: Blocker
+      support: Yes
+    receiver: msteams-blocker
+    continue: true
+  - match:
+      severity: Critical
+      support: Yes
+    receiver: msteams-critical
+    continue: true
+  - match:
+      severity: High
+      support: Yes
+    receiver: msteams-high
+    continue: true
+  - match:
+      business: APIsources
+    receiver: msteams-apisources
+    continue: true
+  - match:
+      business: DPI
+    receiver: msteams-dpi
+    continue: true
+  - match:
+      business: Internal
+    receiver: msteams-internal
+    continue: true
+  - match:
+      business: RTN
+    receiver: msteams-rtn
+    continue: true
+  - match:
+      business: API
+    receiver: msteams-api
+    continue: true
+  - match:
+      business: API-UAT
+    receiver: msteams-api-uat
+    continue: true
+  - match:
+      email: APIs
+    receiver: email-api
+    continue: true
+  - match:
+      business: Test
+    receiver: msteams-test
+    continue: true
+

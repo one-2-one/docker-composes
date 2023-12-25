@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: cp-kafka
+    volumes:
+      - /grid/0/confluentic-kafka/data:/var/lib/kafka/data
+    ports:
+      - "9888:9888"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://example1.com:9888
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ZOOKEEPER_CONNECT: "example1.com:2182,example2.com:2182,example3.com:2182"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"

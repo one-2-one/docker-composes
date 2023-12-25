@@ -1,0 +1,10 @@
+version: "3"
+services:
+  postgres:
+    container_name: nginx-hdp-repo
+    image: nginx:1.22.0
+    volumes:
+      - /dev/repo/html/conf/default.conf:/etc/nginx/conf.d/default.conf
+      - /dev/repo/html/repo:/usr/share/nginx/html
+    ports:
+      - "8080:8080"

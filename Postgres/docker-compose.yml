@@ -1,0 +1,19 @@
+version: "3.3"
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  postgres:
+    container_name: postgres-14.2
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: "admin"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+    volumes:
+      - /drive/0/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

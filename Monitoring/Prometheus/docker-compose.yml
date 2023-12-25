@@ -1,0 +1,23 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    container_name: prometheus-v3
+    user: "1000:1000"
+    volumes:
+      - /opt/prometheus/config:/etc/prometheus
+      - /opt/prometheus/db:/prometheus/data:z
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.retention.time=200d'
+      - '--web.external-url=http://example.com:9090/'
+      - '--web.enable-lifecycle'
+    ports:
+      - 0.0.0.0:9090:9090
+    restart: always

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mirror-maker:
+    image: oburiatov/kafka-mirror-maker
+    container_name: mirror-maker
+    volumes:
+      - type: bind
+        source: /drive/1/kafka-confluentic-prod/mirror-maker-sys-to-confluentic/connect-mirror-maker.properties
+        target: /etc/kafka/config/connect-mirror-maker.properties
+    environment:
+      KAFKA_HEAP_OPTS: -Xms16G -Xmx64G

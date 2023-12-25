@@ -1,0 +1,76 @@
+#Global defaults, applied to all receivers where not explicitly overridden. Optional.
+defaults:
+  # API access fields.
+  api_url: 
+  user: 
+  password: 
+
+  # The type of JIRA issue to create. Required.
+  issue_type: 'Incident'
+  # Issue priority. Optional.
+  priority:
+  # Go template invocation for generating the summary. Required.
+  summary: '{{ template "jira.summary" . }}'
+  # Go template invocation for generating the description. Optional.
+  description: '{{ template "jira.description" . }}'
+  # State to transition into when reopening a closed issue. Required.
+  reopen_state: "To Do"
+  # Do not reopen issues with this resolution. Optional.
+  wont_fix_resolution: "Won't Fix"
+  # Amount of time after being closed that an issue should be reopened, after which, a new issue is created.
+  # Optional (default: always reopen)
+  reopen_duration: 0h
+
+# Receiver definitions. At least one must be defined.
+receivers:
+  - name: 'jiralert-blocker'
+    project: sys
+    add_group_labels: false
+    fields:
+      project: {"key": "sys"}
+      priority: {"name": "Blocker"}
+      customfield_12574: {"value": "Team DevOps"}
+      customfield_12572: {"value": "Support"}
+      customfield_10100: "sys-001"
+
+  - name: 'jiralert-critical'
+    project: sys
+    add_group_labels: false
+    fields:
+      project: {"key": "sys"}
+      priority: {"name": "Critical"}
+      customfield_12574: {"value": "Team DevOps"}
+      customfield_12572: {"value": "Support"}
+      customfield_10100: "sys-001"
+
+  - name: 'jiralert-high'
+    project: sys
+    add_group_labels: false
+    fields:
+      project: {"key": "sys"}
+      priority: {"name": "High"}
+      customfield_12574: {"value": "Team DevOps"}
+      customfield_12572: {"value": "Support"}
+      customfield_10100: "sys-001"
+
+  - name: 'jiralert-medium'
+    project: sys
+    add_group_labels: false
+    fields:
+      project: {"key": "sys"}
+      priority: {"name": "Medium"}
+      customfield_12574: {"value": "Team DevOps"}
+      customfield_12572: {"value": "Support"}
+      customfield_10100: "sys-001"
+
+  - name: 'jiralert-low'
+    project: sys
+    add_group_labels: false
+    fields:
+      project: {"key": "sys"}
+      priority: {"name": "Low"}
+      customfield_12574: {"value": "Team DevOps"}
+      customfield_12572: {"value": "Support"}
+      customfield_10100: "sys-001"
+
+template: jiralert.tmpl

@@ -1,0 +1,18 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  blob-exporter-postgres-bkp:
+    image: sunbird/prometheus-azure-blob-exporter:v1
+    container_name: blob-exporter-postgres-bkp
+    volumes:
+      - ./config.yml:/etc/prometheus-azure-blob-exporter/config.yml
+    ports:
+      - 0.0.0.0:9358:9358
+    extra_hosts:
+      storagename.blob.core.windows.net: 10.0.0.1
+    restart: always

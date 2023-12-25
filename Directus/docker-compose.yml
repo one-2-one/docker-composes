@@ -1,0 +1,47 @@
+version: '3'
+services:
+  database:
+    container_name: database
+    image: postgis/postgis:10-3.0
+    ports:
+      - 0.0.0.0:5432:5432   
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    networks:
+      - directus
+    environment:
+      POSTGRES_USER: 'directus'
+      POSTGRES_PASSWORD: 'directus'
+      POSTGRES_DB: 'directus'
+      
+  cache:
+    container_name: cache
+    image: redis:6
+    networks:
+      - directus
+
+  directus:
+    container_name: directus
+    image: directus/directus:9.0.0-rc.90
+    ports:
+      - 8055:8055
+    volumes:
+      - /directus/uploads:/directus/uploads
+    depends_on:
+      - cache
+      - database
+    environment:
+      KEY: 'xxx-xxx-xxx'
+      SECRET: 'xxx-xxx-xx'
+
+      DB_CLIENT: 'pg'
+      DB_HOST: 'database'
+      DB_PORT: '5432'
+      DB_DATABASE: 'directus'
+      DB_USER: 'directus'
+      DB_PASSWORD: 'directus'
+      CACHE_ENABLED: 'true'
+      CACHE_STORE: 'redis'
+      CACHE_REDIS: 'redis://cache:6379'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'password'

@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  nexus:
+    container_name: nexus
+    image: sonatype/nexus3:3.38.1
+    ports:
+      - "0.0.0.0:32333:8081"
+      - "0.0.0.0:32334:5000"
+      - "0.0.0.0:32335:8081"
+      - "0.0.0.0:32336:8082"
+      - "0.0.0.0:32337:8083"
+      - "0.0.0.0:32338:8084"
+      - "0.0.0.0:32339:8085"
+      - "0.0.0.0:32340:8092"
+      - "0.0.0.0:32341:8093"
+  
+    volumes:
+      - /grid/0/nexus:/nexus-data:rw
+    extra_hosts:
+      - "sgproxy.example.com:10.0.0.30"

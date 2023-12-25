@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  pushgateway:
+    image: prom/pushgateway
+    container_name: prometheus-pushgateway
+    restart: unless-stopped
+    volumes:
+      - ./pushgateway/:/etc/pushgateway/
+    command:
+      - '--persistence.file=/var/pushgateway.data'
+      - '--web.external-url=http://example.com:9091/'
+    expose:
+      - 9091
+    ports:
+      - "9091:9091"
+    labels:
+      org.label-schema.group: "monitoring"

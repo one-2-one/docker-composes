@@ -1,0 +1,1 @@
+docker run -d   -p 0.0.0.0:9104:9104 --name prometheus-mysql-exporter   --network localdev    -e DATA_SOURCE_NAME="prometheus:passwd@(sys-01:3306)/"   prom/mysqld-exporter

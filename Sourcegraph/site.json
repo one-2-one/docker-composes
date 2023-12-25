@@ -1,0 +1,9 @@
+{
+    "auth.providers": [
+        {
+            "type": "builtin"
+        }
+    ],
+    "disablePublicRepoRedirects": true,
+    "search.index.enabled": true
+}

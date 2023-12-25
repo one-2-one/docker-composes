@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: nexus.sys.ua:8082/sys/confluentinc-cp-zookeeper:7.2.1
+    container_name: zookeeper_kafka
+    user: 1000:1000
+    ports:
+      - "0.0.0.0:2182:2182"
+      - "0.0.0.0:3865:2888"
+      - "0.0.0.0:4865:3888"
+    volumes:
+      - /grid/0/zookeeper/log:/var/lib/zookeeper/logs
+      - /grid/0/zookeeper/data:/var/lib/zookeeper/data
+    network_mode: host
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_SERVERS: example1.com:3865:4865;example2.com:3865:4865;example3.com:3865:4865
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 500
+      ZOOKEEPER_SYNC_LIMIT: 200

@@ -1,0 +1,14 @@
+{{ define "jira.summary" }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }} {{ end }}
+
+{{ define "jira.description" }}{{ range .Alerts.Firing }}
+
+Labels:
+{{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+{{ end }}
+
+Annotations:
+{{ range .Annotations.SortedPairs }} - {{ .Name }} = {{ .Value }}
+{{ end }}
+
+Source: {{ .GeneratorURL }}
+{{ end }}{{ end }}

@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  haproxy:
+    image: haproxy:2.5
+    hostname: haproxy
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "2"
+    volumes:
+      - "/opt/conf/haproxy-config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+    ports:
+      - "1960:1960"
+      - "80:80"
+      - "443:443"

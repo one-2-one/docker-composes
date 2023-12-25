@@ -1,0 +1,9 @@
+version: "3"
+services:
+  postgres:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner:v15.2.1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes/gitlab-runner-config/_data:/etc/gitlab-runner
+

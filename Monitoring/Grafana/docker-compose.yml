@@ -1,0 +1,19 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  grafana:
+    image: grafana/grafana-enterprise:8.5.5
+    container_name: grafana
+    volumes:
+      - /opt/grafana/grafana-lib:/var/lib/grafana
+      - /opt/grafana/grafana-ddn:/etc/grafana
+    ports:
+      - 0.0.0.0:3000:3000
+    environment:
+      - GF_PATHS_DATA=/var/lib/grafana
+    restart: always

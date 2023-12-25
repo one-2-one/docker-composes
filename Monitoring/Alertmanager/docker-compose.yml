@@ -1,0 +1,18 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  prometheus-alertmanager:
+    image: prom/alertmanager:v0.24.0
+    container_name: prometheus-alertmanager
+    volumes:
+      - /opt/alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+    ports:
+      - 0.0.0.0:9093:9093
+    restart: always

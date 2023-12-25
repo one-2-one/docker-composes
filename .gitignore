@@ -1,0 +1,5 @@
+# VS code
+**/.DS_Store
+
+#Remove history.log
+*history.log

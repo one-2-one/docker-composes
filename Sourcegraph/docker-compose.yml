@@ -1,0 +1,19 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  sourcegraph:
+    container_name: sourcegraph
+    image: sourcegraph/server:4.4.2
+    ports:
+      - "0.0.0.0:7080:7080"
+    environment:
+      - SITE_CONFIG_FILE=/other/site-config.json
+    volumes:
+      - /mnt/etc/sourcegraph:/etc/sourcegraph
+      - /mnt/var/opt/sourcegraph:/var/opt/sourcegraph
+      - ./site.json:/other/site-config.json

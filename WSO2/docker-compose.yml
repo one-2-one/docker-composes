@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+    wso2test:
+        image: wso2/wso2am:2.6.0-centos
+        networks:
+          - wso2test
+        labels:
+          com.example.description: "Test WSO2AM API"
+        domainname: example.com
+        hostname: wso2
+        extra_hosts:
+         - "example1.com:10.0.0.82"
+        volumes: 
+            - wso2carbon:/home/wso2carbon
+        ports:
+            - "8280:8280"
+            - "8243:8243"
+            - "9443:9443"
+            - "9999:9999"
+            - "11111:11111"
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+              constraints:
+               - node.hostname == srv-dev01.example.com
+            update_config:
+              parallelism: 1
+              delay: 10s
+            resources:
+                limits:
+                    cpus: '2'
+                    memory: 6G
+                reservations:
+                    cpus: '1'
+                    memory: 1G
+            restart_policy:
+              condition: on-failure
+              delay: 10s
+              max_attempts: 3
+volumes:
+  wso2carbon:
+networks:
+  wso2test:

@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  haproxy:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    restart: always
+    volumes:
+      - "/opt/conf/nginx-config/nginx.conf:/etc/nginx/nginx.conf:ro"
+    ports:
+      - "30000:30000"

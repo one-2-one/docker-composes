@@ -1,0 +1,20 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  blob-exporter-postgres-bkp:
+    image: benst/azure-blob-storage-exporter:0.1.0
+    container_name: blob-exporter-postgres-bkp
+    ports:
+      - 0.0.0.0:9359:8080
+    extra_hosts:
+      storagename.blob.core.windows.net: 10.0.0.1
+    environment:
+      - storageAccountName="storagename"
+      - storageAccountKey="key==
+      - blobContainerName="backup"
+    restart: always

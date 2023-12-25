@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  prometheus-cloudwatch:
+    image: prom/cloudwatch-exporter:v0.15.4
+    container_name: prometheus-cloudwatch
+    volumes:
+      - /grid/0/prometheus/cloudwatch/prometheus-exporter.yml:/config/config.yml
+    environment:
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
+    ports:
+      - 0.0.0.0:9106:9106
+    restart: always

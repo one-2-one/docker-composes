@@ -1,0 +1,17 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  prometheus:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    container_name: prometheus-postgres-exporter
+    ports:
+      - 0.0.0.0:9187:9187
+    environment:
+      - DATA_SOURCE_NAME="postgresql://prometheus:passwordstring@example.com:5432/postgres?sslmode=disable"  
+    restart: always
+
